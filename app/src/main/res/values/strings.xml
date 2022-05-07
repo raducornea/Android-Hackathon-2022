@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Dice</string>
+
+    <string name="todo">TODO</string>
+
+    <!--DICE-->
+    <string name="dice_previous_roll">Zarul anterior</string>
+    <string name="dice_roll">Învârte zarurile</string>
+    <string name="dice_shake">… sau dă shake</string>
+
+    <!--HISTORY-->
+    <string name="history_title">Istoric</string>
+
+</resources>
