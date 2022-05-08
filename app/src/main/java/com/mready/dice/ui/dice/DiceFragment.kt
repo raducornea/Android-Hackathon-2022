@@ -53,7 +53,7 @@ class DiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val preferences = (requireActivity() as MainActivity).getSharedPreferences()
         storage = Storage(preferences)
-        storage.addNoPreferences() // uncomment if you want to reset list
+//        storage.addNoPreferences() // uncomment if you want to reset list
 
         // preia toate view-urile
         getViewsReferences(view)
