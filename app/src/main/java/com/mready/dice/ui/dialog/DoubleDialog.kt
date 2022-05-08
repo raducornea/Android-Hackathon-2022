@@ -5,16 +5,17 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.button.MaterialButton
 import com.mready.dice.R
+import com.mready.dice.ui.dice.DiceFragment
+
 
 class DoubleDialog : DialogFragment() {
     private lateinit var thxButton: MaterialButton
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    override fun onCreateDialog(DialogFragment: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_double, null)
 
@@ -25,6 +26,9 @@ class DoubleDialog : DialogFragment() {
             quitView()
         }
 
+
+
+
         return builder.create().also {
             it.window?.setBackgroundDrawable(
                 AppCompatResources.getDrawable(
@@ -33,6 +37,10 @@ class DoubleDialog : DialogFragment() {
                 )
             )
             it.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
+            // ca sa dai disable la atingeri din afara
+            it.setCancelable(false)
+            it.setCanceledOnTouchOutside(false)
         }
     }
 
@@ -40,8 +48,10 @@ class DoubleDialog : DialogFragment() {
         thxButton = view.findViewById(R.id.btn_thx)
     }
 
+
+
     private fun quitView(){
+        DiceFragment.startShaker()
         dismiss()
     }
-
 }

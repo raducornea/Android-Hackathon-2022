@@ -1,6 +1,9 @@
 package com.mready.dice.ui.dice
 
+import android.content.Context
+import android.content.Context.SENSOR_SERVICE
 import android.graphics.Color
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -8,20 +11,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.mready.dice.R
 import com.mready.dice.storage.Storage
 import com.mready.dice.ui.MainActivity
-import com.mready.dice.ui.dialog.DoubleDialog
-import kotlinx.serialization.*
+import com.squareup.seismic.ShakeDetector
 
 
-class DiceFragment : Fragment() {
+class DiceFragment : Fragment(), ShakeDetector.Listener  {
+    // chestii de seismic stuff
+    override fun hearShake() {
+        rollDice()
+    }
 
     companion object {
         fun newInstance(): DiceFragment {
             return DiceFragment()
+        }
+
+        private lateinit var sensorManager: SensorManager
+        private lateinit var shakeDetector: ShakeDetector
+        fun startShaker(){
+            shakeDetector.start(sensorManager)
+        }
+        fun stopShaker(){
+            shakeDetector.stop()
         }
     }
 
@@ -56,6 +72,13 @@ class DiceFragment : Fragment() {
         storage = Storage(preferences)
 //        storage.addNoPreferences() // uncomment if you want to reset list
 
+        /**
+         * Chestii de shake
+         */
+        sensorManager = (requireActivity() as MainActivity).obtineSystemService()
+        shakeDetector = ShakeDetector(this)
+        startShaker()
+
         // preia toate view-urile
         getViewsReferences(view)
 
@@ -70,10 +93,11 @@ class DiceFragment : Fragment() {
 
         // seteaza pentru view-urile respective diverse functionalitati
         containerHistory.setOnClickListener {
+            stopShaker()
             (requireActivity() as MainActivity).navigateToHistory()
         }
         rollButton.setOnClickListener {
-            rollDice(view)
+            rollDice()
         }
     }
 
@@ -93,7 +117,7 @@ class DiceFragment : Fragment() {
         (requireActivity() as MainActivity).showToast(message)
     }
 
-    fun rollDice(view: View){
+    fun rollDice(){
         val random1 = (1..6).random()
         val random2 = (1..6).random()
         val total = random1 + random2
@@ -126,6 +150,7 @@ class DiceFragment : Fragment() {
 
             // afiseaza popup cu dubla cand a dat dubla
             if(dubla){
+                stopShaker()
                 (requireActivity() as MainActivity).navigateDoubleDialog()
             }
 
@@ -143,8 +168,6 @@ class DiceFragment : Fragment() {
         // schimbat si butonul acela suspect din dreapta sus cu ultimul zar
         if (storage.getElementsSize() > 1)
             updateDiceHistoryText()
-
-
     }
 
     // functie care actualizeaza Zarul Anterior Text din dreapta sus
@@ -166,4 +189,6 @@ class DiceFragment : Fragment() {
             }
         }
     }
+
+
 }
