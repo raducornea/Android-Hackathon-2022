@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.mready.dice.R
+import com.mready.dice.ui.dialog.DoubleDialog
 import com.mready.dice.ui.dice.DiceFragment
 import com.mready.dice.ui.history.HistoryFragment
 
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStackImmediate()
     }
 
+    fun navigateDoubleDialog(){
+        var dialog = DoubleDialog()
+        dialog.show(supportFragmentManager, "customDialog")
+    }
 
 
 

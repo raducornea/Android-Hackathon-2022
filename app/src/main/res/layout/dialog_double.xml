@@ -4,17 +4,55 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center|top"
-    android:orientation="vertical"
-    android:padding="32dp"
-    tools:background="@color/black">
+    android:layout_marginTop="265dp"
+    android:background="@drawable/layout_bg_dubla"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         style="@style/AppTheme.Widget.TextView.Regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/todo" />
+        android:paddingStart="76dp"
+        android:paddingTop="48dp"
+        android:paddingEnd="76dp"
+        android:paddingBottom="16dp"
+        android:text="@string/ai_dat_dubla"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tv_foarte_tare"
+        style="@style/AppTheme.Widget.TextView.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:width="250dp"
+        android:paddingStart="31dp"
+        android:paddingEnd="31dp"
+        android:paddingBottom="32dp"
+        android:text="@string/bravo_boss"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_thx"
+        style="@style/AppTheme.Widget.MaterialComponents.UnelevatedButton"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:paddingStart="31dp"
+        android:paddingEnd="31dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/super_super"
+        android:textSize="16sp"
+        android:textAlignment="center"
+
+        tools:background="@color/bg_button_primary"/>
+
+
 
 </LinearLayout>

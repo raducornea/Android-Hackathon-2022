@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton
 import com.mready.dice.R
 import com.mready.dice.storage.Storage
 import com.mready.dice.ui.MainActivity
+import com.mready.dice.ui.dialog.DoubleDialog
 import kotlinx.serialization.*
 
 
@@ -131,6 +132,11 @@ class DiceFragment : Fragment() {
         // schimbat si butonul acela suspect din dreapta sus cu ultimul zar
         if (storage.getElementsSize() > 1)
             updateDiceHistoryText()
+
+        // afiseaza popup cu dubla cand a dat dubla
+        if(dubla){
+            (requireActivity() as MainActivity).navigateDoubleDialog()
+        }
     }
 
     // functie care actualizeaza Zarul Anterior Text din dreapta sus
@@ -153,7 +159,3 @@ class DiceFragment : Fragment() {
         }
     }
 }
-
-//        catch (e: Exception){
-//            (requireActivity() as MainActivity).showToast(e.message.toString())
-//        }

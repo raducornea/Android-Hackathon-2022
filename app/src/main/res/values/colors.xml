@@ -14,4 +14,10 @@
     <color name="bg_dice_history">#99000000</color>
     <color name="bg_dice_history_border">#80000000</color>
 
+<!--    pentru double dialog -->
+    <color name="dark_grey">#332F2C</color>
+    <color name="beige">#F2E7C9</color>
+
+
+
 </resources>

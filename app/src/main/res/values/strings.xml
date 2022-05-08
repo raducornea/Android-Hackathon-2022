@@ -2,6 +2,9 @@
     <string name="app_name">Dice</string>
 
     <string name="todo">TODO</string>
+    <string name="ai_dat_dubla">Ai dat dublă!</string>
+    <string name="bravo_boss">Foarte tare! Bravo, mai încearcă până mai dai o dată!</string>
+    <string name="super_super">Super tare, mersi</string>
 
     <!--DICE-->
     <string name="dice_previous_roll">Zarul anterior</string>
