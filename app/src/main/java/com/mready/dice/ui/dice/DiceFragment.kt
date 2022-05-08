@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Context.SENSOR_SERVICE
 import android.graphics.Color
 import android.hardware.SensorManager
-import android.os.Bundle
-import android.os.Handler
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,15 @@ class DiceFragment : Fragment(), ShakeDetector.Listener  {
     // chestii de seismic stuff
     override fun hearShake() {
         rollDice()
+    }
+
+    fun vibratePhone(){
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(200)
+        }
     }
 
     companion object {
@@ -151,6 +159,7 @@ class DiceFragment : Fragment(), ShakeDetector.Listener  {
             // afiseaza popup cu dubla cand a dat dubla
             if(dubla){
                 stopShaker()
+                vibratePhone()
                 (requireActivity() as MainActivity).navigateDoubleDialog()
             }
 
