@@ -1,16 +1,24 @@
 package com.mready.dice.ui.dice
 
-import android.net.Uri
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.mready.dice.R
+import com.mready.dice.storage.Storage
 import com.mready.dice.ui.MainActivity
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.*
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.decodeFromString
+
 
 class DiceFragment : Fragment() {
     companion object {
@@ -19,9 +27,11 @@ class DiceFragment : Fragment() {
         }
     }
 
+    private lateinit var storage: Storage
     private lateinit var firstDice: ImageView
     private lateinit var secondDice: ImageView
     private lateinit var containerHistory: View
+    private lateinit var containerHistoryText: TextView
     private lateinit var rollButton: MaterialButton
     private var diceImages: List<Int> = listOf(
         R.drawable.dice_face_01,
@@ -42,9 +52,23 @@ class DiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val preferences = (requireActivity() as MainActivity).getSharedPreferences()
+        storage = Storage(preferences)
+//        storage.addNoPreferences() // uncomment if you want to reset list
 
+        // preia toate view-urile
         getViewsReferences(view)
 
+        if(storage.hasElements()){
+            val lastElement = storage.getLastElement()
+
+            firstDice.setImageResource(diceImages.elementAt(lastElement.zar1 - 1))
+            secondDice.setImageResource(diceImages.elementAt(lastElement.zar2 - 1))
+
+            updateDiceHistoryText()
+        }
+
+        // seteaza pentru view-urile respective diverse functionalitati
         containerHistory.setOnClickListener {
             (requireActivity() as MainActivity).navigateToHistory()
         }
@@ -59,10 +83,53 @@ class DiceFragment : Fragment() {
 
         firstDice = view.findViewById<ImageView>(R.id.iv_first_die)
         secondDice = view.findViewById<ImageView>(R.id.iv_second_die)
+
+        containerHistoryText = view.findViewById(R.id.tv_previous_roll)
+    }
+
+    fun printOnScreen(message: String){
+        (requireActivity() as MainActivity).showToast(message)
     }
 
     fun rollDice(view: View){
-        firstDice.setImageResource(diceImages.random());
-        secondDice.setImageResource(diceImages.random());
+        val random1 = (1..6).random()
+        val random2 = (1..6).random()
+
+        // schimbam imaginea resursei
+        firstDice.setImageResource(diceImages.elementAt(random1 - 1));
+        secondDice.setImageResource(diceImages.elementAt(random2 - 1));
+
+        // actualizam json-ul
+        val total = random1 + random2
+        val dubla = (random1 == random2)
+        storage.addElement(total, random1, random2, dubla)
+
+        // schimbat si butonul acela suspect din dreapta sus cu ultimul zar
+        if (storage.getElementsSize() > 1)
+            updateDiceHistoryText()
+    }
+
+    // functie care actualizeaza Zarul Anterior Text din dreapta sus
+    fun updateDiceHistoryText(){
+        containerHistoryText.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+        containerHistoryText.text = "Zarul anterior\n"
+
+        if(storage.getElementsSize() > 1) {
+            val lastElement = storage.getLastLastElement()
+            if (lastElement.dubla) {
+                containerHistoryText.setTextColor(Color.parseColor("#D87153"))
+                val lastResult =
+                    "Dublă\t" + lastElement.zar1.toString() + "-" + lastElement.zar2.toString()
+                containerHistoryText.append(lastResult)
+            } else {
+                containerHistoryText.setTextColor(Color.parseColor("#FFFFFF"))
+                val lastResult = lastElement.zar1.toString() + "-" + lastElement.zar2.toString()
+                containerHistoryText.append(lastResult)
+            }
+        }
     }
 }
+
+//        catch (e: Exception){
+//            (requireActivity() as MainActivity).showToast(e.message.toString())
+//        }

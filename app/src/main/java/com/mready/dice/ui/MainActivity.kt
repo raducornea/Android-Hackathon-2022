@@ -1,5 +1,6 @@
 package com.mready.dice.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,9 +37,20 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStackImmediate()
     }
 
+
+
+
     fun showToast(){
-        val toast = Toast.makeText(this, "ceva mesaj random", Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(this, "ceva mesaj random", Toast.LENGTH_LONG)
         toast.show()
     }
 
+    fun showToast(message: String){
+        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+        toast.show()
+    }
+
+    fun getSharedPreferences(): SharedPreferences {
+        return getSharedPreferences("SharedPreferences", MODE_PRIVATE)
+    }
 }
