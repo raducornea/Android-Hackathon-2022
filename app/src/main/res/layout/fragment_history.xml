@@ -14,6 +14,8 @@
         android:paddingTop="24dp"
         android:paddingBottom="40dp"
         android:visibility="gone"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <androidx.appcompat.widget.Toolbar
@@ -32,5 +34,42 @@
             android:visibility="visible" />
 
     </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/hv_zaruri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="281dp"
+        android:src="@drawable/illustration_empty_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_history" />
+    <TextView
+        android:id="@+id/hv_notification"
+        style="@style/AppTheme.Widget.TextView.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="450dp"
+        android:paddingStart="73dp"
+        android:paddingEnd="73dp"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/hv_notification"
+        android:textSize="24sp"
+        android:visibility="visible" />
+    <TextView
+        android:id="@+id/hv_notification_details"
+        style="@style/AppTheme.Widget.TextView.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="500dp"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:width="304dp"
+        android:text="@string/hv_notification_details"
+        android:textSize="16sp"
+        android:visibility="visible"/>
+
 
 </FrameLayout>

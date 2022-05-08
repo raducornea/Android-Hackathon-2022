@@ -64,25 +64,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container_history" />
 
+<!--    zarul 1-->
     <ImageView
         android:id="@+id/iv_first_die"
         android:layout_width="108dp"
         android:layout_height="0dp"
         android:src="@drawable/dice_face_01"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/btn_roll"
         app:layout_constraintEnd_toStartOf="@id/iv_second_die"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_title" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationViewZar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/dice_shuffle_01"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/btn_roll"
+        app:layout_constraintEnd_toStartOf="@id/iv_second_die"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_title"/>
+
+<!--    zarul 2-->
     <ImageView
         android:id="@+id/iv_second_die"
         android:layout_width="108dp"
         android:layout_height="108dp"
         android:src="@drawable/dice_face_02"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/iv_first_die"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_first_die"
         app:layout_constraintTop_toTopOf="@id/iv_first_die" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationViewZar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/dice_shuffle_01"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/iv_first_die"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_first_die"
+        app:layout_constraintTop_toTopOf="@id/iv_first_die"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_roll"

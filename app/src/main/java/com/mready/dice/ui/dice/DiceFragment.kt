@@ -1,26 +1,23 @@
 package com.mready.dice.ui.dice
 
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.mready.dice.R
 import com.mready.dice.storage.Storage
 import com.mready.dice.ui.MainActivity
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.*
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.decodeFromString
 
 
 class DiceFragment : Fragment() {
+
     companion object {
         fun newInstance(): DiceFragment {
             return DiceFragment()
@@ -30,6 +27,8 @@ class DiceFragment : Fragment() {
     private lateinit var storage: Storage
     private lateinit var firstDice: ImageView
     private lateinit var secondDice: ImageView
+    private lateinit var firstDiceAnimation: com.airbnb.lottie.LottieAnimationView
+    private lateinit var secondDiceAnimation: com.airbnb.lottie.LottieAnimationView
     private lateinit var containerHistory: View
     private lateinit var containerHistoryText: TextView
     private lateinit var rollButton: MaterialButton
@@ -54,7 +53,7 @@ class DiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val preferences = (requireActivity() as MainActivity).getSharedPreferences()
         storage = Storage(preferences)
-//        storage.addNoPreferences() // uncomment if you want to reset list
+        storage.addNoPreferences() // uncomment if you want to reset list
 
         // preia toate view-urile
         getViewsReferences(view)
@@ -83,6 +82,8 @@ class DiceFragment : Fragment() {
 
         firstDice = view.findViewById<ImageView>(R.id.iv_first_die)
         secondDice = view.findViewById<ImageView>(R.id.iv_second_die)
+        firstDiceAnimation = view.findViewById(R.id.animationViewZar1)
+        secondDiceAnimation = view.findViewById(R.id.animationViewZar2)
 
         containerHistoryText = view.findViewById(R.id.tv_previous_roll)
     }
@@ -94,6 +95,29 @@ class DiceFragment : Fragment() {
     fun rollDice(view: View){
         val random1 = (1..6).random()
         val random2 = (1..6).random()
+
+        // timp de o secunda ar trebui sa se invizibilizeze imaginile
+        firstDice.setVisibility(View.INVISIBLE)
+        secondDice.setVisibility(View.INVISIBLE)
+
+        // se fac vizibile animatiile
+        firstDiceAnimation.setVisibility(View.VISIBLE)
+        secondDiceAnimation.setVisibility(View.VISIBLE)
+
+        // sa aiba loc animatia propriu-zisa
+        firstDiceAnimation.playAnimation()
+        secondDiceAnimation.playAnimation()
+
+        // dupa o secunda de cand fac animatiile, vor reveni imaginile statatoare
+        Handler().postDelayed(Runnable {
+            firstDiceAnimation.pauseAnimation()
+            secondDiceAnimation.pauseAnimation()
+
+            firstDiceAnimation.setVisibility(View.INVISIBLE)
+            secondDiceAnimation.setVisibility(View.INVISIBLE)
+            firstDice.setVisibility(View.VISIBLE)
+            secondDice.setVisibility(View.VISIBLE)
+        }, 1000)
 
         // schimbam imaginea resursei
         firstDice.setImageResource(diceImages.elementAt(random1 - 1));
@@ -117,7 +141,7 @@ class DiceFragment : Fragment() {
         if(storage.getElementsSize() > 1) {
             val lastElement = storage.getLastLastElement()
             if (lastElement.dubla) {
-                containerHistoryText.setTextColor(Color.parseColor("#D87153"))
+//                containerHistoryText.setTextColor(Color.parseColor("#D87153"))
                 val lastResult =
                     "Dublă\t" + lastElement.zar1.toString() + "-" + lastElement.zar2.toString()
                 containerHistoryText.append(lastResult)

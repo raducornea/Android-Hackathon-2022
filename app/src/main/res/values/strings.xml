@@ -10,5 +10,7 @@
 
     <!--HISTORY-->
     <string name="history_title">Istoric</string>
+    <string name="hv_notification">Nu ai istoric încă</string>
+    <string name="hv_notification_details">Dă shake sau învârte zarurile, aici vor apărea toate scorurile tale</string>
 
 </resources>
