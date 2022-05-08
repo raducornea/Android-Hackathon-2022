@@ -96,10 +96,15 @@ class DiceFragment : Fragment() {
     fun rollDice(view: View){
         val random1 = (1..6).random()
         val random2 = (1..6).random()
+        val total = random1 + random2
+        val dubla = (random1 == random2)
 
         // timp de o secunda ar trebui sa se invizibilizeze imaginile
         firstDice.setVisibility(View.INVISIBLE)
         secondDice.setVisibility(View.INVISIBLE)
+
+        // setam butonul ca inactiv la apasare
+        rollButton.setEnabled(false)
 
         // se fac vizibile animatiile
         firstDiceAnimation.setVisibility(View.VISIBLE)
@@ -118,6 +123,14 @@ class DiceFragment : Fragment() {
             secondDiceAnimation.setVisibility(View.INVISIBLE)
             firstDice.setVisibility(View.VISIBLE)
             secondDice.setVisibility(View.VISIBLE)
+
+            // afiseaza popup cu dubla cand a dat dubla
+            if(dubla){
+                (requireActivity() as MainActivity).navigateDoubleDialog()
+            }
+
+            // setam butonul ca activ acum
+            rollButton.setEnabled(true)
         }, 1000)
 
         // schimbam imaginea resursei
@@ -125,18 +138,13 @@ class DiceFragment : Fragment() {
         secondDice.setImageResource(diceImages.elementAt(random2 - 1));
 
         // actualizam json-ul
-        val total = random1 + random2
-        val dubla = (random1 == random2)
         storage.addElement(total, random1, random2, dubla)
 
         // schimbat si butonul acela suspect din dreapta sus cu ultimul zar
         if (storage.getElementsSize() > 1)
             updateDiceHistoryText()
 
-        // afiseaza popup cu dubla cand a dat dubla
-        if(dubla){
-            (requireActivity() as MainActivity).navigateDoubleDialog()
-        }
+
     }
 
     // functie care actualizeaza Zarul Anterior Text din dreapta sus
